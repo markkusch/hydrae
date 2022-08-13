@@ -8,13 +8,6 @@ int main() {
   #endif
 
   GameWindow window;
-
-  sf::Texture planetTexture;
-  if (!planetTexture.loadFromFile("content/planeto.png")) {
-    std::cout << "Error loading texture" << std::endl;
-    return -1;
-  }
-
   World testWorld;
 
   sf::Event event;
@@ -36,8 +29,6 @@ int main() {
           sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
           sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
           PhysicsObject planet(worldPos, 10e10, planetIndex);
-          planet.setTexture(planetTexture);
-          planet.scale(2.f, 2.f);
           testWorld.summon(planet);
           planetIndex++;
         }

@@ -66,7 +66,7 @@ void World::update(sf::Time deltaTime) {
 
 void World::draw(sf::RenderWindow &window) {
   for (uint i = 0; i < objects.size(); i++) {
-    window.draw(objects[i]);
+    window.draw(*objects[i].getShape());
     #if defined(_DEBUG)
       window.draw(objects[i].getNetForce().getVectorShape());
       //std::cout << "Object " << i << "; X:" << objects[i].getPosition().x << ", Y:" << objects[i].getPosition().y << std::endl;

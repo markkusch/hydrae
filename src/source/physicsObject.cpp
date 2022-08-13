@@ -1,12 +1,23 @@
 #include "../include/physicsObject.hpp"
 
 PhysicsObject::PhysicsObject(sf::Vector2f position_, float mass_, int id_) {
-  setOrigin(getPosition().x + 16, getPosition().y + 16);
+  shape = new sf::CircleShape(10.f);
+  shape -> setFillColor(sf::Color(124, 124, 124));
+  sf::Vector2f origin_ = sf::Vector2f(getPosition().x + 10, getPosition().y + 10);
+  shape -> setOrigin(origin_);
   setPosition(position_);
   acceleration = sf::Vector2f(0, 0);
   velocity = sf::Vector2f(0, 0);
   mass = mass_;
   id = id_;
+}
+
+sf::Shape* PhysicsObject::getShape() {
+  return shape;
+}
+
+sf::Vector2f PhysicsObject::getPosition() {
+  return shape -> getPosition();
 }
 
 float PhysicsObject::getMass() {
@@ -26,6 +37,10 @@ int PhysicsObject::getID() {
 
 Force PhysicsObject::getNetForce() {
   return netForce;
+}
+
+void PhysicsObject::setPosition(sf::Vector2f position_) {
+  shape -> setPosition(position_);
 }
 
 void PhysicsObject::setMass(float mass_) {

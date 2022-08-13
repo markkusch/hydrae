@@ -1,7 +1,8 @@
 #include "force.hpp"
 
-class PhysicsObject: public sf::Sprite {
+class PhysicsObject {
   protected:
+    sf::Shape* shape;
     int id;
     float mass;
     sf::Vector2f coordinates;
@@ -12,11 +13,14 @@ class PhysicsObject: public sf::Sprite {
   public:
     PhysicsObject(int id_): id(id_) {}
     PhysicsObject(sf::Vector2f position_, float mass_, int id_);
+    sf::Shape* getShape();
+    sf::Vector2f getPosition();
     float getMass();
     sf::Vector2f getVelocity();
     sf::Vector2f getAcceleration();
-    Force getNetForce();
     int getID();
+    Force getNetForce();
+    void setPosition(sf::Vector2f position_);
     void setMass(float mass_);
     void setVelocity(sf::Vector2f vel_);
     void setAcceleration(sf::Vector2f acc_);
