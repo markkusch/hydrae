@@ -10,11 +10,8 @@ Force::Force(sf::Vector2f direction_, sf::Vector2f applicationPoint_) {
   } else if (acosPatch < -1.f) {
     acosPatch = -1.f;
   }
-  //angle = atan(direction.y / direction.x);
   angle = acos(acosPatch);
-  vectorShape = sf::VertexArray(sf::Lines, 2);
-  vectorShape[0].position = applicationPoint;
-  vectorShape[1].position = direction;
+  buildVectorShape();
 }
 
 Force::Force(float angle_, float magnitude_, sf::Vector2f applicationPoint_) {
@@ -23,9 +20,7 @@ Force::Force(float angle_, float magnitude_, sf::Vector2f applicationPoint_) {
   applicationPoint = applicationPoint_;
   direction.x = applicationPoint.x + (magnitude * cos(angle));
   direction.y = applicationPoint.y + (magnitude * sin(angle));
-  vectorShape = sf::VertexArray(sf::Lines, 2);
-  vectorShape[0].position = applicationPoint;
-  vectorShape[1].position = direction;
+  buildVectorShape();
 }
 
 float Force::getAngle() {
@@ -49,7 +44,7 @@ sf::Vector2f Force::getUnitVector() {
     (direction.y - applicationPoint.y) / magnitude);
 }
 
-sf::VertexArray Force::getVectorShape() {
+sf::RectangleShape Force::getVectorShape() {
   return vectorShape;
 }
 
@@ -67,6 +62,15 @@ void Force::setDirection(sf::Vector2f direction_) {
 
 void Force::setApplicationPoint(sf::Vector2f applicationPoint_) {
   applicationPoint = applicationPoint_;
+}
+
+void Force::buildVectorShape() {
+  vectorShape = sf::RectangleShape(sf::Vector2f(150.f, 5.f));
+  vectorShape.setOrigin(sf::Vector2f(0, 2.5f));
+  vectorShape.setPosition(applicationPoint);
+  // Set rotation in clockwise order
+  vectorShape.setRotation(360 - (angle * RAD_TO_DEG));
+  vectorShape.setFillColor(sf::Color::Red);
 }
 
 Force Force::operator+(Force other) {

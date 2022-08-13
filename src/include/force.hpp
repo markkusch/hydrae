@@ -8,7 +8,7 @@ class Force {
     float angle;                      // Calculated relative to the X-Axis in radians.
     sf::Vector2f direction;           // Direction relative to the application point.
     sf::Vector2f applicationPoint;    // Coordinates where the vector "starts".
-    sf::VertexArray vectorShape;      // Line to visualize the force.
+    sf::RectangleShape vectorShape;   // Line to visualize the force.
   public:
     Force(): magnitude(0), angle(0), direction(0,0), applicationPoint(0,0) {}
     Force(sf::Vector2f direction_, sf::Vector2f applicationPoint_);
@@ -18,11 +18,12 @@ class Force {
     sf::Vector2f getDirection();
     sf::Vector2f getApplicationPoint();
     sf::Vector2f getUnitVector();
-    sf::VertexArray getVectorShape();
+    sf::RectangleShape getVectorShape();
     void setAngle(float angle_);
     void setMagnitude(float magnitude_);
     void setDirection(sf::Vector2f direction_);
     void setApplicationPoint(sf::Vector2f applicationPoint_);
+    void buildVectorShape();
     Force operator+(Force other);
     Force operator-(Force other);
     Force operator*(float scalar);

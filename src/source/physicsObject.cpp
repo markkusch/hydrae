@@ -77,10 +77,8 @@ void PhysicsObject::applyForce(Force newForce) {
 Force PhysicsObject::calculateGravitalForce(PhysicsObject other) {
   sf::Vector2f resultingDir = other.getPosition() - getPosition();
   float resultingMagnitude = (GRAV_CONST * mass * other.getMass()) / distanceTo(other);
-  //resultingDir = resultingDir * static_cast<float>(resultingMagnitude * distanceTo(other) / pow(mass, 2.0));
   resultingDir = resultingDir * resultingMagnitude;
   Force resultingForce(resultingDir, getPosition());
-  //std::cout << "res force: " << resultingForce.getDirection().x << ", " << resultingForce.getDirection().y << std::endl;
   return resultingForce;
 }
 
