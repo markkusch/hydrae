@@ -1,4 +1,4 @@
-#include "physicsObject.hpp"
+#include "gameWindow.hpp"
 
 class World {
   private:
@@ -7,8 +7,10 @@ class World {
   public:
     World();
     std::vector<PhysicsObject> getObjects();
+    PhysicsObject* getHoveredObject();
     void summon(PhysicsObject newObject);
     void updateForces();
     void update(sf::Time deltaTime);
-    void draw(sf::RenderWindow &window);
+    void draw(GameWindow &window);
+    void clearTargets();
 };

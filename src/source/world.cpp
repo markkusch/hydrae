@@ -3,8 +3,18 @@
 World::World() {
   worldSize = sf::Vector2f(1024.f, 1024.f);
 }
+
 std::vector<PhysicsObject> World::getObjects() {
   return objects;
+}
+
+PhysicsObject* World::getHoveredObject() {
+  for (uint i = 0; i < objects.size(); i++) {
+    if (objects[i].isHovered()) {
+      return &objects[i];
+    }
+  }
+  return nullptr;
 }
 
 void World::summon(PhysicsObject newObject) {
@@ -40,10 +50,6 @@ void World::update(sf::Time deltaTime) {
       (objects[i].getVelocity().x + deltaTime.asSeconds() * objects[i].getAcceleration().x / 2.f)),
       objects[i].getPosition().y + deltaTime.asSeconds() *
       (objects[i].getVelocity().y + deltaTime.asSeconds() * objects[i].getAcceleration().y / 2.f)));
-    #if defined(_DEBUG)
-      //std::cout << "old acc: " << objects[i].getAcceleration().x << ", " << objects[i].getAcceleration().y << std::endl;
-      //std::cout << "pos: " << objects[i].getPosition().x << ", " << objects[i].getPosition().y << std::endl;
-    #endif
   }
   // Update forces according to new position.
   updateForces();
@@ -57,19 +63,34 @@ void World::update(sf::Time deltaTime) {
         (objects[i].getAcceleration().x + newAcceleration.x)) / 2.f, objects[i].getVelocity().y +
         (deltaTime.asSeconds() * (objects[i].getAcceleration().y + newAcceleration.y)) / 2.f));
     objects[i].setAcceleration(newAcceleration);
-    #if defined(_DEBUG)
-      //std::cout << "vel: " << objects[i].getVelocity().x << ", " << objects[i].getVelocity().y << std::endl;
-      //std::cout << "new acc: " << newAcceleration.x << ", " << newAcceleration.y << std::endl;
+  }
+}
+
+void World::draw(GameWindow &window) {
+  for (uint i = 0; i < objects.size(); i++) {
+    // If mouse is over an object, draw an outline around it.
+    if (objects[i].getShape() -> getGlobalBounds().contains((sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window)))))) {
+      objects[i].getShape()->setOutlineColor(sf::Color::White);
+      objects[i].getShape()->setOutlineThickness(2.f);
+      objects[i].setHover(true);
+    } else {
+      objects[i].getShape()->setOutlineThickness(0.f);
+      objects[i].setHover(false);
+    }
+    if (objects[i].isTargeted()) {
+      std::cout << "Object with ID " << objects[i].getID() << " is targeted." << std::endl;
+    } else {
+      std::cout << "Object with ID " << objects[i].getID() << " is not targeted." << std::endl;
+    }
+    window.draw(*objects[i].getShape());
+    #ifdef _DEBUG
+      window.draw(objects[i].getNetForce().getVectorShape());
     #endif
   }
 }
 
-void World::draw(sf::RenderWindow &window) {
+void World::clearTargets() {
   for (uint i = 0; i < objects.size(); i++) {
-    window.draw(*objects[i].getShape());
-    #if defined(_DEBUG)
-      window.draw(objects[i].getNetForce().getVectorShape());
-      //std::cout << "Object " << i << "; X:" << objects[i].getPosition().x << ", Y:" << objects[i].getPosition().y << std::endl;
-    #endif
+    objects[i].setTarget(false);
   }
 }

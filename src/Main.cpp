@@ -1,6 +1,5 @@
 #include "Platform/Platform.hpp"
 #include "include/world.hpp"
-#include "include/gameWindow.hpp"
 
 int main() {
   #if defined(_DEBUG)
@@ -14,6 +13,7 @@ int main() {
   sf::Vector2f oldPos;
   int planetIndex = 0;
   bool movingView = false;
+  PhysicsObject* targetedObject = nullptr;
 
   // MAIN GAME LOOP
   while (window.isOpen()) {
@@ -39,6 +39,15 @@ int main() {
         }
         if (event.mouseButton.button == sf::Mouse::Right) {
           movingView = false;
+          PhysicsObject* hoveredObject = testWorld.getHoveredObject();
+          if (hoveredObject != nullptr && !hoveredObject -> isTargeted()) {
+            testWorld.clearTargets();
+            hoveredObject -> setTarget(true);
+            targetedObject = hoveredObject;
+          } else if (hoveredObject != nullptr && hoveredObject -> isTargeted()) {
+            hoveredObject -> setTarget(false);
+            targetedObject = nullptr;
+          }
         }
       }
       if (event.type == sf::Event::MouseMoved) {
@@ -59,10 +68,10 @@ int main() {
     sf::Time elapsed = clock.restart();
     testWorld.update(elapsed);
     window.clear(sf::Color(3, 6, 46));
-    #ifdef _DEBUG
-      window.loadDebugHud();
-    #endif
     testWorld.draw(window);
+    #ifdef _DEBUG
+      window.loadDebugHud(targetedObject);
+    #endif
     window.display();
   }
   return 0;

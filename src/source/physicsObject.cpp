@@ -10,6 +10,8 @@ PhysicsObject::PhysicsObject(sf::Vector2f position_, float mass_, int id_) {
   velocity = sf::Vector2f(0, 0);
   mass = mass_;
   id = id_;
+  hovered = false;
+  targeted = false;
 }
 
 sf::Shape* PhysicsObject::getShape() {
@@ -37,6 +39,14 @@ int PhysicsObject::getID() {
 
 Force PhysicsObject::getNetForce() {
   return netForce;
+}
+
+bool PhysicsObject::isHovered() {
+  return hovered;
+}
+
+bool PhysicsObject::isTargeted() {
+  return targeted;
 }
 
 void PhysicsObject::setPosition(sf::Vector2f position_) {
@@ -85,4 +95,12 @@ Force PhysicsObject::calculateGravitalForce(PhysicsObject other) {
 void PhysicsObject::clearForces() {
   netForce = Force(0, 0, getPosition());
   forces.clear();
+}
+
+void PhysicsObject::setHover(bool hovered_) {
+  hovered = hovered_;
+}
+
+void PhysicsObject::setTarget(bool targeted_) {
+  targeted = targeted_;
 }

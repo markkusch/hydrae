@@ -1,3 +1,5 @@
+#include "physicsObject.hpp"
+
 class GameWindow: public sf::RenderWindow {
   protected:
     sf::View gameView;
@@ -6,5 +8,5 @@ class GameWindow: public sf::RenderWindow {
     GameWindow();
     void zoom(float factor);
     void move(sf::Vector2f deltaPosition);
-    void loadDebugHud();
+    void loadDebugHud(PhysicsObject* hoveredObject);
 };

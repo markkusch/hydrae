@@ -10,6 +10,8 @@ class PhysicsObject {
     sf::Vector2f acceleration;
     std::vector<Force> forces;
     Force netForce;
+    bool hovered;
+    bool targeted;
   public:
     PhysicsObject(int id_): id(id_) {}
     PhysicsObject(sf::Vector2f position_, float mass_, int id_);
@@ -20,6 +22,8 @@ class PhysicsObject {
     sf::Vector2f getAcceleration();
     int getID();
     Force getNetForce();
+    bool isHovered();
+    bool isTargeted();
     void setPosition(sf::Vector2f position_);
     void setMass(float mass_);
     void setVelocity(sf::Vector2f vel_);
@@ -30,4 +34,6 @@ class PhysicsObject {
     void calculateNetForce();
     Force calculateGravitalForce(PhysicsObject other);
     void clearForces();
+    void setHover(bool hovered_);
+    void setTarget(bool targeted_);
 };

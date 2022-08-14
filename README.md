@@ -9,3 +9,4 @@
 * Movable camera
 * Add a menu with buttons to customize parameters
 * Add the ability to create an object with initial speed and direction
+* To select an object, create a method in world.hpp to look for an object in a given position within a region (view).
