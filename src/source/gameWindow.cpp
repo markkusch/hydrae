@@ -56,7 +56,9 @@ void GameWindow::loadDebugHud(PhysicsObject targetedObject) {
         + "\n\tMass: " + std::to_string(targetedObject.getMass()) + "\n\tVelocity: "
         + std::to_string(targetedObject.getVelocity().x) + ", " + std::to_string(targetedObject.getVelocity().y)
         + "\n\tAcceleration: " + std::to_string(targetedObject.getAcceleration().x) + ", " + std::to_string(targetedObject.getAcceleration().y)
-        + "\n\tNet Force direction: " + std::to_string(targetedObject.getNetForce().getDirection().x) + ", " + std::to_string(targetedObject.getNetForce().getDirection().y));
+        + "\n\tNet Force direction: " + std::to_string(targetedObject.getNetForce().getDirection().x) + ", " + std::to_string(targetedObject.getNetForce().getDirection().y)
+        + "\n\tNet Force magnitude: " + std::to_string(targetedObject.getNetForce().getMagnitude())
+        + "\n\tNet Force Angle: " + std::to_string(targetedObject.getNetForce().getAngle() * RAD_TO_DEG));
       objectData.setCharacterSize(16);
       objectData.setPosition(10, 70);
       draw(objectData);

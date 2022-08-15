@@ -15,6 +15,7 @@ int hydrae() {
   PhysicsObject nullObject = PhysicsObject(sf::Vector2f(0, 0), 0, -1);
   int planetIndex = 0;
   bool movingView = false;
+  bool paused = false;
 
   // MAIN GAME LOOP
   while (window.isOpen()) {
@@ -28,6 +29,11 @@ int hydrae() {
         if (event.mouseButton.button == sf::Mouse::Right) {
           movingView = true;
           oldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        }
+      }
+      if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Space) {
+          paused = !paused;
         }
       }
       if (event.type == sf::Event::MouseButtonReleased) {
@@ -71,7 +77,9 @@ int hydrae() {
       }
     }
     sf::Time elapsed = clock.restart();
-    testWorld.update(elapsed);
+    if (!paused) {
+      testWorld.update(elapsed);
+    }
     window.clear(sf::Color(3, 6, 46));
     testWorld.draw(window);
     #ifdef _DEBUG
