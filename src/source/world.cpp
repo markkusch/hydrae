@@ -8,13 +8,17 @@ std::vector<PhysicsObject> World::getObjects() {
   return objects;
 }
 
-PhysicsObject* World::getHoveredObject() {
+int World::getHoveredIndex() {
   for (uint i = 0; i < objects.size(); i++) {
     if (objects[i].isHovered()) {
-      return &objects[i];
+      return i;
     }
   }
-  return nullptr;
+  return -1;
+}
+
+void World::setObjects(std::vector<PhysicsObject> objects_) {
+  objects = objects_;
 }
 
 void World::summon(PhysicsObject newObject) {
@@ -76,11 +80,6 @@ void World::draw(GameWindow &window) {
     } else {
       objects[i].getShape()->setOutlineThickness(0.f);
       objects[i].setHover(false);
-    }
-    if (objects[i].isTargeted()) {
-      std::cout << "Object with ID " << objects[i].getID() << " is targeted." << std::endl;
-    } else {
-      std::cout << "Object with ID " << objects[i].getID() << " is not targeted." << std::endl;
     }
     window.draw(*objects[i].getShape());
     #ifdef _DEBUG

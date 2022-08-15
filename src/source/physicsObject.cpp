@@ -1,6 +1,6 @@
 #include "../include/physicsObject.hpp"
 
-PhysicsObject::PhysicsObject(sf::Vector2f position_, float mass_, int id_) {
+PhysicsObject::PhysicsObject(sf::Vector2f position_, double mass_, int id_) {
   shape = new sf::CircleShape(10.f);
   shape -> setFillColor(sf::Color(124, 124, 124));
   sf::Vector2f origin_ = sf::Vector2f(getPosition().x + 10, getPosition().y + 10);
@@ -22,7 +22,7 @@ sf::Vector2f PhysicsObject::getPosition() {
   return shape -> getPosition();
 }
 
-float PhysicsObject::getMass() {
+double PhysicsObject::getMass() {
   return mass;
 }
 
@@ -53,7 +53,7 @@ void PhysicsObject::setPosition(sf::Vector2f position_) {
   shape -> setPosition(position_);
 }
 
-void PhysicsObject::setMass(float mass_) {
+void PhysicsObject::setMass(double mass_) {
   mass = mass_;
 }
 
@@ -85,9 +85,10 @@ void PhysicsObject::applyForce(Force newForce) {
 }
 
 Force PhysicsObject::calculateGravitalForce(PhysicsObject other) {
-  sf::Vector2f resultingDir = other.getPosition() - getPosition();
+  sf::Vector2<double> resultingDir(other.getPosition().x - getPosition().x, other.getPosition().y - getPosition().y);
   float resultingMagnitude = (GRAV_CONST * mass * other.getMass()) / distanceTo(other);
-  resultingDir = resultingDir * resultingMagnitude;
+  resultingDir.x = resultingDir.x * resultingMagnitude;
+  resultingDir.y = resultingDir.y * resultingMagnitude;
   Force resultingForce(resultingDir, getPosition());
   return resultingForce;
 }

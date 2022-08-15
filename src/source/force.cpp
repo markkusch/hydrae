@@ -1,6 +1,6 @@
 #include "../include/force.hpp"
 
-Force::Force(sf::Vector2f direction_, sf::Vector2f applicationPoint_) {
+Force::Force(sf::Vector2<double> direction_, sf::Vector2f applicationPoint_) {
   direction = direction_;
   applicationPoint = applicationPoint_;
   magnitude = sqrt(pow(direction.x - applicationPoint.x, 2.0) + pow(direction.y - applicationPoint.y, 2.0));
@@ -31,7 +31,7 @@ float Force::getMagnitude() {
   return magnitude;
 }
 
-sf::Vector2f Force::getDirection() {
+sf::Vector2<double> Force::getDirection() {
   return direction;
 }
 
@@ -56,7 +56,7 @@ void Force::setMagnitude(float magnitude_) {
   magnitude = magnitude_;
 }
 
-void Force::setDirection(sf::Vector2f direction_) {
+void Force::setDirection(sf::Vector2<double> direction_) {
   direction = direction_;
 }
 
@@ -68,7 +68,6 @@ void Force::buildVectorShape() {
   vectorShape = sf::RectangleShape(sf::Vector2f(150.f, 5.f));
   vectorShape.setOrigin(sf::Vector2f(0, 2.5f));
   vectorShape.setPosition(applicationPoint);
-  // Set rotation in clockwise order
   vectorShape.setRotation(360 - (angle * RAD_TO_DEG));
   vectorShape.setFillColor(sf::Color::Red);
 }
@@ -82,5 +81,6 @@ Force Force::operator-(Force other) {
 }
 
 Force Force::operator*(float scalar) {
-  return Force(direction * scalar, applicationPoint);
+  sf::Vector2<double> newDirection(direction.x * scalar, direction.y * scalar);
+  return Force(newDirection, applicationPoint);
 }

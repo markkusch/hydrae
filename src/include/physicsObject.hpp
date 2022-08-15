@@ -4,7 +4,7 @@ class PhysicsObject {
   protected:
     sf::Shape* shape;
     int id;
-    float mass;
+    double mass;
     sf::Vector2f coordinates;
     sf::Vector2f velocity;
     sf::Vector2f acceleration;
@@ -14,10 +14,10 @@ class PhysicsObject {
     bool targeted;
   public:
     PhysicsObject(int id_): id(id_) {}
-    PhysicsObject(sf::Vector2f position_, float mass_, int id_);
+    PhysicsObject(sf::Vector2f position_, double mass_, int id_);
     sf::Shape* getShape();
     sf::Vector2f getPosition();
-    float getMass();
+    double getMass();
     sf::Vector2f getVelocity();
     sf::Vector2f getAcceleration();
     int getID();
@@ -25,7 +25,7 @@ class PhysicsObject {
     bool isHovered();
     bool isTargeted();
     void setPosition(sf::Vector2f position_);
-    void setMass(float mass_);
+    void setMass(double mass_);
     void setVelocity(sf::Vector2f vel_);
     void setAcceleration(sf::Vector2f acc_);
     void setID(int id_);

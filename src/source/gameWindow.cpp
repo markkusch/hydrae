@@ -30,14 +30,13 @@ void GameWindow::move(sf::Vector2f deltaPosition) {
   setView(gameView);
 }
 
-void GameWindow::loadDebugHud(PhysicsObject* targetedObject) {
+void GameWindow::loadDebugHud(PhysicsObject targetedObject) {
   setView(hudView);
   sf::Font font;
   sf::Text title, mousePos, objectData;
   if (!font.loadFromFile("./content/UbuntuMono-Regular.ttf")) {
     std::cout << "Error loading font" << std::endl;
   } else {
-
     title.setFont(font);
     title.setString("Debug Mode");
     title.setCharacterSize(24);
@@ -50,15 +49,14 @@ void GameWindow::loadDebugHud(PhysicsObject* targetedObject) {
     mousePos.setCharacterSize(16);
     mousePos.setPosition(10, 40);
 
-    if (targetedObject != nullptr) {
-      std::cout << "Targeted object: " << targetedObject -> getID() << std::endl;
+    if (targetedObject.getID() != -1) {
       objectData.setFont(font);
-      objectData.setString("Target Object: \n\tID: " + std::to_string(targetedObject -> getID()) + "\n\tPosition: "
-        + std::to_string(targetedObject -> getPosition().x) + ", " + std::to_string(targetedObject -> getPosition().y)
-        + "\n\tMass: " + std::to_string(targetedObject -> getMass()) + "\n\tVelocity: "
-        + std::to_string(targetedObject -> getVelocity().x) + ", " + std::to_string(targetedObject -> getVelocity().y)
-        + "\n\tAcceleration: " + std::to_string(targetedObject -> getAcceleration().x) + ", " + std::to_string(targetedObject -> getAcceleration().y)
-        + "\n\tNet Force direction: " + std::to_string(targetedObject -> getNetForce().getDirection().x) + ", " + std::to_string(targetedObject -> getNetForce().getDirection().y));
+      objectData.setString("Targeted Object: \n\tID: " + std::to_string(targetedObject.getID()) + "\n\tPosition: "
+        + std::to_string(targetedObject.getPosition().x) + ", " + std::to_string(targetedObject.getPosition().y)
+        + "\n\tMass: " + std::to_string(targetedObject.getMass()) + "\n\tVelocity: "
+        + std::to_string(targetedObject.getVelocity().x) + ", " + std::to_string(targetedObject.getVelocity().y)
+        + "\n\tAcceleration: " + std::to_string(targetedObject.getAcceleration().x) + ", " + std::to_string(targetedObject.getAcceleration().y)
+        + "\n\tNet Force direction: " + std::to_string(targetedObject.getNetForce().getDirection().x) + ", " + std::to_string(targetedObject.getNetForce().getDirection().y));
       objectData.setCharacterSize(16);
       objectData.setPosition(10, 70);
       draw(objectData);

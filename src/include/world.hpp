@@ -7,7 +7,8 @@ class World {
   public:
     World();
     std::vector<PhysicsObject> getObjects();
-    PhysicsObject* getHoveredObject();
+    int getHoveredIndex();
+    void setObjects(std::vector<PhysicsObject> objects_);
     void summon(PhysicsObject newObject);
     void updateForces();
     void update(sf::Time deltaTime);

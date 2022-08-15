@@ -1,9 +1,10 @@
 #include "Platform/Platform.hpp"
 #include "include/world.hpp"
 
-int main() {
+int hydrae() {
   #if defined(_DEBUG)
     std::cout << "Debug mode!" << std::endl;
+    int targetedIndex = -1;
   #endif
 
   GameWindow window;
@@ -11,9 +12,9 @@ int main() {
   sf::Event event;
   sf::Clock clock;
   sf::Vector2f oldPos;
+  PhysicsObject nullObject = PhysicsObject(sf::Vector2f(0, 0), 0, -1);
   int planetIndex = 0;
   bool movingView = false;
-  PhysicsObject* targetedObject = nullptr;
 
   // MAIN GAME LOOP
   while (window.isOpen()) {
@@ -39,15 +40,19 @@ int main() {
         }
         if (event.mouseButton.button == sf::Mouse::Right) {
           movingView = false;
-          PhysicsObject* hoveredObject = testWorld.getHoveredObject();
-          if (hoveredObject != nullptr && !hoveredObject -> isTargeted()) {
-            testWorld.clearTargets();
-            hoveredObject -> setTarget(true);
-            targetedObject = hoveredObject;
-          } else if (hoveredObject != nullptr && hoveredObject -> isTargeted()) {
-            hoveredObject -> setTarget(false);
-            targetedObject = nullptr;
-          }
+          #ifdef _DEBUG
+            int hoveredIndex = testWorld.getHoveredIndex();
+            std::vector<PhysicsObject> objects = testWorld.getObjects();
+            if (hoveredIndex != -1 && !objects[hoveredIndex].isTargeted()) {
+              testWorld.clearTargets();
+              objects[hoveredIndex].setTarget(true);
+              targetedIndex = hoveredIndex;
+            } else if (hoveredIndex != -1 && objects[hoveredIndex].isTargeted()) {
+              objects[hoveredIndex].setTarget(false);
+              targetedIndex = -1;
+            }
+            testWorld.setObjects(objects);
+          #endif
         }
       }
       if (event.type == sf::Event::MouseMoved) {
@@ -70,9 +75,23 @@ int main() {
     window.clear(sf::Color(3, 6, 46));
     testWorld.draw(window);
     #ifdef _DEBUG
-      window.loadDebugHud(targetedObject);
+      if (targetedIndex != -1) {
+        std::vector<PhysicsObject> objects = testWorld.getObjects();
+        window.loadDebugHud(objects[targetedIndex]);
+      } else {
+        window.loadDebugHud(nullObject);
+      }
     #endif
     window.display();
   }
   return 0;
+}
+
+int main() {
+  try {
+    return hydrae();
+  } catch (const std::exception& e) {
+    std::cerr<< "EXCEPTION: " << e.what() << std::endl;
+    return EXIT_FAILURE;
+  }
 }

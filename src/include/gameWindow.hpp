@@ -8,5 +8,5 @@ class GameWindow: public sf::RenderWindow {
     GameWindow();
     void zoom(float factor);
     void move(sf::Vector2f deltaPosition);
-    void loadDebugHud(PhysicsObject* hoveredObject);
+    void loadDebugHud(PhysicsObject targetedObject);
 };
