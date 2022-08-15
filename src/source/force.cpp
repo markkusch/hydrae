@@ -4,13 +4,14 @@ Force::Force(sf::Vector2<double> direction_, sf::Vector2f applicationPoint_) {
   direction = direction_;
   applicationPoint = applicationPoint_;
   magnitude = sqrt(pow(direction.x - applicationPoint.x, 2.0) + pow(direction.y - applicationPoint.y, 2.0));
-  float acosPatch = (direction.x - applicationPoint.x) / magnitude;
-  if (acosPatch > 1.f) {
-    acosPatch = 1.f;
-  } else if (acosPatch < -1.f) {
-    acosPatch = -1.f;
-  }
-  angle = acos(acosPatch);
+  // float acosPatch = (direction.x - applicationPoint.x) / magnitude;
+  // if (acosPatch > 1.f) {
+  //   acosPatch = 1.f;
+  // } else if (acosPatch < -1.f) {
+  //   acosPatch = -1.f;
+  // }
+  //angle = acos(acosPatch);
+  angle = atan2(direction.y - applicationPoint.y, direction.x - applicationPoint.x);
   buildVectorShape();
 }
 
@@ -68,7 +69,7 @@ void Force::buildVectorShape() {
   vectorShape = sf::RectangleShape(sf::Vector2f(150.f, 5.f));
   vectorShape.setOrigin(sf::Vector2f(0, 2.5f));
   vectorShape.setPosition(applicationPoint);
-  vectorShape.setRotation(360 - (angle * RAD_TO_DEG));
+  vectorShape.setRotation(angle * RAD_TO_DEG);
   vectorShape.setFillColor(sf::Color::Red);
 }
 
