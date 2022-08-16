@@ -54,6 +54,7 @@ void World::update(sf::Time deltaTime) {
       (objects[i].getVelocity().x + deltaTime.asSeconds() * objects[i].getAcceleration().x / 2.f)),
       objects[i].getPosition().y + deltaTime.asSeconds() *
       (objects[i].getVelocity().y + deltaTime.asSeconds() * objects[i].getAcceleration().y / 2.f)));
+    objects[i].updateTrails();
   }
   // Update forces according to new position.
   updateForces();
@@ -81,6 +82,7 @@ void World::draw(GameWindow &window) {
       objects[i].getShape()->setOutlineThickness(0.f);
       objects[i].setHover(false);
     }
+    window.draw(objects[i].getTrails());
     window.draw(*objects[i].getShape());
     #ifdef _DEBUG
       window.draw(objects[i].getNetForce().getVectorShape());

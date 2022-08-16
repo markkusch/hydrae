@@ -66,8 +66,8 @@ void Force::setApplicationPoint(sf::Vector2f applicationPoint_) {
 }
 
 void Force::buildVectorShape() {
-  vectorShape = sf::RectangleShape(sf::Vector2f(150.f, 5.f));
-  vectorShape.setOrigin(sf::Vector2f(0, 2.5f));
+  vectorShape = sf::RectangleShape(sf::Vector2f(150, 3.f));
+  vectorShape.setOrigin(sf::Vector2f(0, 1.5f));
   vectorShape.setPosition(applicationPoint);
   vectorShape.setRotation(angle * RAD_TO_DEG);
   vectorShape.setFillColor(sf::Color::Red);

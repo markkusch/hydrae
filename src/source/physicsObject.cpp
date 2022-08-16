@@ -10,6 +10,12 @@ PhysicsObject::PhysicsObject(sf::Vector2f position_, double mass_, int id_) {
   velocity = sf::Vector2f(0, 0);
   mass = mass_;
   id = id_;
+  trails = sf::VertexArray(sf::Points, TRAILS_LENGTH);
+  for (uint i = 0; i < trails.getVertexCount(); i++) {
+    float mappedIndex = i / (float)trails.getVertexCount() * 255;
+    trails[i].color = sf::Color(255, 255, 255, mappedIndex);
+    trails[i].position = position_;
+  }
   hovered = false;
   targeted = false;
 }
@@ -49,6 +55,10 @@ bool PhysicsObject::isTargeted() {
   return targeted;
 }
 
+sf::VertexArray PhysicsObject::getTrails() {
+  return trails;
+}
+
 void PhysicsObject::setPosition(sf::Vector2f position_) {
   shape -> setPosition(position_);
 }
@@ -69,9 +79,22 @@ void PhysicsObject::setID(int id_) {
   id = id_;
 }
 
+void PhysicsObject::updateTrails() {
+  if (distanceTo(trails[trails.getVertexCount()- 1].position) > TRAILS_DENSITY) {
+    for (uint i = 0; i < trails.getVertexCount(); i++) {
+      trails[i].position = trails[i + 1].position;
+    }
+    trails[trails.getVertexCount() - 1].position = shape -> getPosition();
+  }
+}
+
 float PhysicsObject::distanceTo(PhysicsObject other) {
-  return sqrt(pow(other.getPosition().x - getPosition().x, 2.0) +
-      pow(other.getPosition().y - getPosition().y, 2.0));
+  return distanceTo(other.getPosition());
+}
+
+float PhysicsObject::distanceTo(sf::Vector2f other) {
+  return sqrt(pow(other.x - getPosition().x, 2.0) +
+    pow(other.y - getPosition().y, 2.0));
 }
 
 void PhysicsObject::calculateNetForce() {
