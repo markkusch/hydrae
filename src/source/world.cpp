@@ -26,6 +26,8 @@ void World::summon(PhysicsObject newObject) {
 }
 
 // Poco eficiente.
+// En vez de borrar y aplicar nuevas fuerzas, debería actualizar las que tiene,
+// para así poder mantener fuerzas constantes y que sea más eficiente.
 void World::updateForces() {
   for (uint i = 0; i < objects.size(); i++) {
     objects[i].clearForces();

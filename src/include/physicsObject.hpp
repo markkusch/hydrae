@@ -1,6 +1,6 @@
 #include "force.hpp"
 
-#define TRAILS_LENGTH 1024
+#define TRAILS_LENGTH 512
 #define TRAILS_DENSITY 0.5
 
 class PhysicsObject {

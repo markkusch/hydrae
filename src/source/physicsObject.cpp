@@ -11,8 +11,8 @@ PhysicsObject::PhysicsObject(sf::Vector2f position_, double mass_, int id_) {
   mass = mass_;
   id = id_;
   trails = sf::VertexArray(sf::Points, TRAILS_LENGTH);
-  for (uint i = 0; i < trails.getVertexCount(); i++) {
-    float mappedIndex = i / (float)trails.getVertexCount() * 255;
+  for (uint i = 0; i < TRAILS_LENGTH; i++) {
+    float mappedIndex = i / (float)TRAILS_LENGTH * 255;
     trails[i].color = sf::Color(255, 255, 255, mappedIndex);
     trails[i].position = position_;
   }
@@ -80,11 +80,11 @@ void PhysicsObject::setID(int id_) {
 }
 
 void PhysicsObject::updateTrails() {
-  if (distanceTo(trails[trails.getVertexCount()- 1].position) > TRAILS_DENSITY) {
-    for (uint i = 0; i < trails.getVertexCount(); i++) {
+  if (distanceTo(trails[TRAILS_LENGTH - 1].position) > TRAILS_DENSITY) {
+    for (uint i = 0; i < TRAILS_LENGTH - 1; i++) {
       trails[i].position = trails[i + 1].position;
     }
-    trails[trails.getVertexCount() - 1].position = shape -> getPosition();
+    trails[TRAILS_LENGTH - 1].position = shape -> getPosition();
   }
 }
 
