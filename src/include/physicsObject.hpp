@@ -1,3 +1,14 @@
+/**
+ * @file physicsObject.hpp
+ * @author Markus Schüller Perdigón (markuschue@gmail.com)
+ *
+ * @brief A physical object in the game
+ * @details This file contains the definition of a basic physical object in the game,
+ * as well as the methods to manipulate it or helper functions to calculate its
+ * properties/forces. All universal forces should be defined here. This class
+ * will be extended to include more specific objects, such as planets, stars, etc.
+ */
+
 #include "force.hpp"
 
 #define TRAILS_LENGTH 512
@@ -8,7 +19,6 @@ class PhysicsObject {
     sf::Shape* shape;
     int id;
     double mass;
-    sf::Vector2f coordinates;
     sf::Vector2f velocity;
     sf::Vector2f acceleration;
     std::vector<Force> forces;

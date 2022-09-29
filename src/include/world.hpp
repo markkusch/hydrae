@@ -1,9 +1,17 @@
+/**
+ * @file world.hpp
+ * @author Markus Schüller Perdigón (markuschue@gmail.com)
+ *
+ * @brief A world in the game
+ * @details This file contains the definition of a world in the game, where all
+ * objects are contained and updated.
+ */
+
 #include "gameWindow.hpp"
 
 class World {
   private:
     std::vector<PhysicsObject> objects;
-    sf::Vector2f worldSize;
   public:
     World();
     std::vector<PhysicsObject> getObjects();

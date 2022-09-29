@@ -1,8 +1,11 @@
 #include "../include/gameWindow.hpp"
 #include "Platform/Platform.hpp"
 
+/**
+ * @brief Construct a new GameWindow::GameWindow object, creates the background color
+ * and initializes the views.
+ */
 GameWindow::GameWindow() {
-  // Creating Windows' window
   util::Platform platform;
   float screenScalingFactor = platform.getScreenScalingFactor(getSystemHandle());
   create(sf::VideoMode(1920.f * screenScalingFactor,
@@ -11,25 +14,38 @@ GameWindow::GameWindow() {
   requestFocus();
   platform.setIcon(getSystemHandle());
 
-  // Creating background
   sf::RectangleShape background;
   background.setFillColor(sf::Color(3, 6, 46));
 
-  // Initializing views
   gameView = getDefaultView();
   hudView = getDefaultView();
 }
 
+/**
+ * @brief Zooms the camera in or out.
+ *
+ * @param factor Factor by which the camera is zoomed.
+ */
 void GameWindow::zoom(float factor) {
   gameView.zoom(factor);
   setView(gameView);
 }
 
+/**
+ * @brief Moves the camera.
+ *
+ * @param deltaPosition Distance in (x, y) by which the camera has moved.
+ */
 void GameWindow::move(sf::Vector2f deltaPosition) {
   gameView.setCenter(gameView.getCenter() + deltaPosition);
   setView(gameView);
 }
 
+/**
+ * @brief Loads the debug HUD and shows the targeted object data if available.
+ *
+ * @param targetedObject Object to display its data.
+ */
 void GameWindow::loadDebugHud(PhysicsObject targetedObject) {
   setView(hudView);
   sf::Font font;

@@ -1,13 +1,26 @@
 #include "../include/world.hpp"
 
+/**
+ * @brief Construct a new World::World object
+ */
 World::World() {
-  worldSize = sf::Vector2f(1024.f, 1024.f);
+  objects = std::vector<PhysicsObject>();
 }
 
+/**
+ * @brief Get the objects in the world.
+ *
+ * @return std::vector<PhysicsObject> Vector of objects in the world.
+ */
 std::vector<PhysicsObject> World::getObjects() {
   return objects;
 }
 
+/**
+ * @brief Get the index of the object that is being hovered by the mouse.
+ *
+ * @return int Index of the object that is being hovered by the mouse.
+ */
 int World::getHoveredIndex() {
   for (uint i = 0; i < objects.size(); i++) {
     if (objects[i].isHovered()) {
@@ -17,10 +30,20 @@ int World::getHoveredIndex() {
   return -1;
 }
 
+/**
+ * @brief Set the objects vector in the world.
+ *
+ * @param objects_ Vector of objects to be set in the world.
+ */
 void World::setObjects(std::vector<PhysicsObject> objects_) {
   objects = objects_;
 }
 
+/**
+ * @brief Summon a new object in the world adding it to the objects vector.
+ *
+ * @param newObject Object to be summoned in the world.
+ */
 void World::summon(PhysicsObject newObject) {
   objects.push_back(newObject);
 }
@@ -28,6 +51,9 @@ void World::summon(PhysicsObject newObject) {
 // Poco eficiente.
 // En vez de borrar y aplicar nuevas fuerzas, debería actualizar las que tiene,
 // para así poder mantener fuerzas constantes y que sea más eficiente.
+/**
+ * @brief Update the forces of all objects in the world.
+ */
 void World::updateForces() {
   for (uint i = 0; i < objects.size(); i++) {
     objects[i].clearForces();
@@ -45,6 +71,11 @@ void World::updateForces() {
 }
 
 // Se puede mejorar guardando la nueva aceleracion para evitar la primera llamada.
+/**
+ * @brief Update the state (forces, position, velocity...) of all objects in the world. This function should be called every frame.
+ *
+ * @param deltaTime Time since the last update.
+ */
 void World::update(sf::Time deltaTime) {
   // Update acceleration according to the forces and position according to that acceleration.
   for (uint i = 0; i < objects.size(); i++) {
@@ -73,6 +104,11 @@ void World::update(sf::Time deltaTime) {
   }
 }
 
+/**
+ * @brief Draw all objects in the world.
+ *
+ * @param window GameWindow to draw the objects in.
+ */
 void World::draw(GameWindow &window) {
   for (uint i = 0; i < objects.size(); i++) {
     // If mouse is over an object, draw an outline around it.
@@ -92,6 +128,9 @@ void World::draw(GameWindow &window) {
   }
 }
 
+/**
+ * @brief Sets all objects in the world to be not targeted.
+ */
 void World::clearTargets() {
   for (uint i = 0; i < objects.size(); i++) {
     objects[i].setTarget(false);

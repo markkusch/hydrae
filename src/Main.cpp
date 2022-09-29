@@ -17,7 +17,6 @@ int hydrae() {
   bool movingView = false;
   bool paused = false;
 
-  // MAIN GAME LOOP
   while (window.isOpen()) {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed)

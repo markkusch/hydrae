@@ -1,3 +1,12 @@
+/**
+ * @file force.hpp
+ * @author Markus Schüller Perdigón (markuschue@gmail.com)
+ *
+ * @brief A force vector in 2D space
+ * @details This file contains the definition of a force vector in 2D space and
+ * the methods to manipulate it, as well as a representation of its shape.
+*/
+
 #define GRAV_CONST 6.67e-11
 #define RAD_TO_DEG 57.295779513
 #define PI 3.14159265359
